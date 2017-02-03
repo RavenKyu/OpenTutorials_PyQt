@@ -30,6 +30,10 @@ class Form(QWidget):
 	def __init__(self):
 		QWidget.__init__(self, flags=Qt.Widget)
 
+		self.setWindowTitle("Various Layout Widgets")
+		self.setFixedWidth(640)
+		self.setFixedHeight(480)
+
 		layout_base = QBoxLayout(QBoxLayout.TopToBottom, self)
 		self.setLayout(layout_base)
 
