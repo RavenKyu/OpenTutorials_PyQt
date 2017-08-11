@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
+from notepad_menubar import MenuBarWidget
 
 __author__ = "Deokyu Lim <hong18s@gmail.com>"
 
@@ -18,6 +19,8 @@ class Form(QMainWindow):
 	def __init__(self):
 		QMainWindow.__init__(self, flags=Qt.Window)
 		self.filename = "제목없음"
+
+		self.menu = MenuBarWidget()
 		self.init_window()
 
 	def init_window(self):
@@ -27,7 +30,7 @@ class Form(QMainWindow):
 		self.setWindowTitle("제목 없음 - 메모장")
 		self.resize(640, 480)
 		self.setWindowIcon(QIcon("notepad.ico"))
-
+		self.setMenuBar(self.menu)
 
 if __name__ == "__main__":
 	app = QApplication(sys.argv)
