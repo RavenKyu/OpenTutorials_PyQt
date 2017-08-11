@@ -8,12 +8,14 @@ import sys
 
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QTextEdit
+from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QTranslator
 from PyQt5.QtCore import QLocale
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QEvent
+from PyQt5.QtCore import pyqtSlot
 
 from notepad_menubar import MenuBarWidget
 from notepad_texteditor import TextEditor
@@ -25,11 +27,71 @@ class Form(QMainWindow):
 	def __init__(self):
 		QMainWindow.__init__(self, flags=Qt.Window)
 		self.menu = MenuBarWidget()
+
 		self.editor = TextEditor()
 		self.translator = QTranslator()  # I18N 관련
+		self.filename = str()
 		self.change_locale("translate\\" + QLocale.system().name() + ".qm")  # 시스템 로케일 사용
-		self.filename = self.tr("untitled")
+
 		self.init_window()
+		self.init_setting()
+
+	def init_setting(self):
+		# 초기설정
+		# 시작시 아무런 수정사항이 없기 때문에 저장 버튼 비활성화
+		self.filename = str()
+		self.set_window_title()
+		self.editor.clear()
+		self.menu.act_save_file.setEnabled(False)
+		# 새로만들기 또는 종료시 현재 저장상태를 확인 후 수행
+		self.is_saved = True
+
+	@pyqtSlot()
+	def slot_contents_changed(self):
+		self.is_saved = False
+		self.menu.act_save_file.setEnabled(True)
+
+	@pyqtSlot()
+	def slot_new(self):
+		"""
+		저장유무 확인 후 저장
+		:return:
+		"""
+		if not self.is_saved:
+			reply = QMessageBox.information(
+				self, self.tr("Save"), self.tr("작성한 내용을 저장하시겠습니까?"),
+				QMessageBox.Save | QMessageBox.No | QMessageBox.Cancel, QMessageBox.Save)
+			if reply == QMessageBox.Save:
+				if not self.slot_save():
+					return  # 도중 취소
+			elif reply == QMessageBox.No:
+				pass
+			else:
+				return  # 취소 버튼
+		self.init_setting()
+
+
+	@pyqtSlot()
+	def slot_open(self):
+		pass
+
+	@pyqtSlot()
+	def slot_save(self):
+		buf = self.editor.toPlainText()  # 에디터에 작성된 글을 가져온다
+		fdial = QFileDialog(self)
+		fdial.setAcceptMode(QFileDialog.AcceptSave)
+		file_name = fdial.getSaveFileName(self, self.tr("Save File"), filter='*.txt')[0]
+		if file_name == '':
+			return False
+		fd = open(file_name, 'w')
+		fd.write(buf)
+		fd.close()
+		self.filename = file_name
+		self.menu.act_save_file.setEnabled(False)
+		self.set_window_title()
+		return True
+
+
 
 	def init_window(self):
 		"""
@@ -40,13 +102,22 @@ class Form(QMainWindow):
 		self.setWindowIcon(QIcon("notepad.ico"))
 		self.setMenuBar(self.menu)
 		self.setCentralWidget(self.editor)
+		self.init_signal()
+
+	def init_signal(self):
+		self.editor.textChanged.connect(self.slot_contents_changed)
+		self.menu.sig_new_file.connect(self.slot_new)
+
 
 	def set_window_title(self):
 		"""
 		윈도우 타이틀 변경
 		:return:
 		"""
-		self.setWindowTitle("{} - {}".format(self.filename, self.tr("Notepad")))
+		filename = self.filename
+		if not self.filename:
+			filename = self.tr("untitled")
+		self.setWindowTitle("{} - {}".format(filename, self.tr("Notepad")))
 
 	def change_locale(self, filename):
 		"""
