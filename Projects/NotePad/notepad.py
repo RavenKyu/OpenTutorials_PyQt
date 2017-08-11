@@ -86,6 +86,7 @@ class Form(QMainWindow):
 		self.editor.insertPlainText(buf)
 		self.filename = file_name
 		self.set_window_title()
+		self.is_saved = True
 		return True
 
 
@@ -94,8 +95,10 @@ class Form(QMainWindow):
 		buf = self.editor.toPlainText()  # 에디터에 작성된 글을 가져온다
 		fdial = QFileDialog(self)
 		fdial.setAcceptMode(QFileDialog.AcceptSave)
-		file_name = fdial.getSaveFileName(self, self.tr("Save File"), filter='*.txt')[0]
-		if file_name == '':
+		file_name = self.filename
+		if not self.filename:
+			file_name = fdial.getSaveFileName(self, self.tr("Save File"), filter='*.txt')[0]
+		if not file_name:
 			return False
 		fd = open(file_name, 'w')
 		fd.write(buf)
