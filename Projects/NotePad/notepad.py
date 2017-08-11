@@ -8,12 +8,15 @@ import sys
 
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QTextEdit
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QTranslator
 from PyQt5.QtCore import QLocale
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QEvent
+
 from notepad_menubar import MenuBarWidget
+from notepad_texteditor import TextEditor
 
 __author__ = "Deokyu Lim <hong18s@gmail.com>"
 
@@ -22,11 +25,11 @@ class Form(QMainWindow):
 	def __init__(self):
 		QMainWindow.__init__(self, flags=Qt.Window)
 		self.menu = MenuBarWidget()
+		self.editor = TextEditor()
 		self.translator = QTranslator()  # I18N 관련
 		self.change_locale("translate\\" + QLocale.system().name() + ".qm")  # 시스템 로케일 사용
 		self.filename = self.tr("untitled")
 		self.init_window()
-
 
 	def init_window(self):
 		"""
@@ -36,6 +39,7 @@ class Form(QMainWindow):
 		self.resize(640, 480)
 		self.setWindowIcon(QIcon("notepad.ico"))
 		self.setMenuBar(self.menu)
+		self.setCentralWidget(self.editor)
 
 	def set_window_title(self):
 		"""
