@@ -119,9 +119,14 @@ class Form(QMainWindow):
 		self.init_signal()
 
 	def init_signal(self):
+		"""
+		위젯들 끼리의 시그널 슬롯 연결
+		:return:
+		"""
 		self.editor.textChanged.connect(self.slot_contents_changed)
 		self.menu.sig_new_file.connect(self.slot_new)
 		self.menu.sig_open_file.connect(self.slot_open)
+		self.menu.sig_save_file.connect(self.slot_save)
 
 
 	def set_window_title(self):
