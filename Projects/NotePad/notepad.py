@@ -5,6 +5,7 @@
 # 윈도우 메모장(NotePad) 만들기
 
 import sys
+import codecs
 
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QApplication
@@ -73,7 +74,20 @@ class Form(QMainWindow):
 
 	@pyqtSlot()
 	def slot_open(self):
-		pass
+		fdial = QFileDialog(self)
+		fdial.setAcceptMode(QFileDialog.AcceptOpen)
+		file_name = fdial.getOpenFileName(self, self.tr("Open File"), filter='*.txt')[0]
+		if file_name == '':
+			return False
+		fd = open(file_name, "r")
+		buf = fd.read()
+		fd.close()
+		self.editor.clear()
+		self.editor.insertPlainText(buf)
+		self.filename = file_name
+		self.set_window_title()
+		return True
+
 
 	@pyqtSlot()
 	def slot_save(self):
@@ -107,6 +121,7 @@ class Form(QMainWindow):
 	def init_signal(self):
 		self.editor.textChanged.connect(self.slot_contents_changed)
 		self.menu.sig_new_file.connect(self.slot_new)
+		self.menu.sig_open_file.connect(self.slot_open)
 
 
 	def set_window_title(self):
@@ -117,6 +132,8 @@ class Form(QMainWindow):
 		filename = self.filename
 		if not self.filename:
 			filename = self.tr("untitled")
+		else:
+			filename = filename[filename.rfind('/') + 1:]
 		self.setWindowTitle("{} - {}".format(filename, self.tr("Notepad")))
 
 	def change_locale(self, filename):
