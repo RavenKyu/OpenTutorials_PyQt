@@ -21,6 +21,7 @@ class MenuBarWidget(QMenuBar):
 	sig_page_setup = pyqtSignal()
 	sig_print = pyqtSignal()
 	sig_exit = pyqtSignal()
+	sig_status_bar = pyqtSignal(bool)
 
 	def __init__(self):
 		QMenuBar.__init__(self)
@@ -150,7 +151,8 @@ class MenuBarWidget(QMenuBar):
 
 	def init_menu_view(self):
 		self.act_status_bar = QAction(self)
-		self.act_status_bar.triggered.connect(self.slot_status_bar)
+		self.act_status_bar.setCheckable(True)
+		self.act_status_bar.triggered.connect(lambda : self.sig_status_bar.emit(self.act_status_bar.isChecked()))
 
 		self.menu_view = self.addMenu(self.tr('View') + "(&V)")
 		self.menu_view.addAction(self.act_status_bar)
@@ -167,14 +169,9 @@ class MenuBarWidget(QMenuBar):
 		self.menu_help.addSeparator()
 		self.menu_help.addAction(self.act_about)
 
-
-
-
 	@pyqtSlot()
 	def slot_save_as(self):
 		pass
-
-
 
 	@pyqtSlot()
 	def slot_undo(self):
@@ -226,10 +223,6 @@ class MenuBarWidget(QMenuBar):
 
 	@pyqtSlot()
 	def slot_font(self):
-		pass
-
-	@pyqtSlot()
-	def slot_status_bar(self):
 		pass
 
 	@pyqtSlot()

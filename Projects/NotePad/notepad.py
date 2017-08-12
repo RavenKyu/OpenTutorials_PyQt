@@ -7,6 +7,7 @@
 import sys
 import codecs
 
+from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMessageBox
@@ -23,18 +24,17 @@ from PyQt5.Qt import QPrintDialog
 from PyQt5.Qt import QPageSetupDialog
 from PyQt5.Qt import QPrinter
 
-
 from notepad_menubar import MenuBarWidget
 from notepad_texteditor import TextEditor
+from notepad_statusbar import StatusBar
 
 __author__ = "Deokyu Lim <hong18s@gmail.com>"
-
 
 class Form(QMainWindow):
 	def __init__(self):
 		QMainWindow.__init__(self, flags=Qt.Window)
 		self.menu = MenuBarWidget()
-
+		self.status_bar = StatusBar()
 		self.editor = TextEditor()
 		self.translator = QTranslator()  # I18N 관련
 		self.filename = str()
@@ -136,6 +136,11 @@ class Form(QMainWindow):
 	def slot_quit(self):
 		pass
 
+	@pyqtSlot(bool)
+	def slot_status_bar(self, status):
+		print(status)
+		pass
+
 	def init_window(self):
 		"""
 		현재 위젯의 모양등을 초기화
@@ -145,6 +150,7 @@ class Form(QMainWindow):
 		self.setWindowIcon(QIcon("notepad.ico"))
 		self.setMenuBar(self.menu)
 		self.setCentralWidget(self.editor)
+		self.setStatusBar(self.status_bar)
 		self.init_signal()
 
 	def init_signal(self):
@@ -153,11 +159,14 @@ class Form(QMainWindow):
 		:return:
 		"""
 		self.editor.textChanged.connect(self.slot_contents_changed)
+		self.editor.cursorPositionChanged.connect(lambda: self.status_bar.change_cursor_info(self.editor.textCursor()))
+		self.menu.sig_status_bar.connect(self.status_bar.setVisible)
 		self.menu.sig_new_file.connect(self.slot_new)
 		self.menu.sig_open_file.connect(self.slot_open)
 		self.menu.sig_save_file.connect(self.slot_save)
 		self.menu.sig_page_setup.connect(self.slot_page_setup)
 		self.menu.sig_print.connect(self.slot_print)
+		self.menu.sig_status_bar.connect(self.slot_status_bar)
 
 
 	def set_window_title(self):
