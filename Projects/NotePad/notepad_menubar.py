@@ -52,14 +52,14 @@ class MenuBarWidget(QMenuBar):
 		# 페이지 설정
 		self.act_page_setup = QAction(self)
 		self.act_page_setup.setShortcut(QKeySequence('Ctrl+S'))
-		self.act_page_setup.triggered.connect(self.slot_page_setup)
+		self.act_page_setup.triggered.connect(lambda : self.sig_page_setup.emit())
 		# 프린트
 		self.act_print = QAction(self)
 		self.act_print.setShortcut(QKeySequence('Ctrl+P'))
-		self.act_print.triggered.connect(self.slot_print)
+		self.act_print.triggered.connect(lambda : self.sig_print.emit())
 		# 끝내기
 		self.act_quit = QAction(self.tr('Exit') + "(&X)", self)
-		self.act_quit.triggered.connect(self.slot_quit)
+		self.act_quit.triggered.connect(lambda : self.sig_exit.emit())
 		# 메뉴바 생성 및 액션 적용
 		# addAction한 차례로 삽입
 
@@ -174,17 +174,7 @@ class MenuBarWidget(QMenuBar):
 	def slot_save_as(self):
 		pass
 
-	@pyqtSlot()
-	def slot_page_setup(self):
-		pass
 
-	@pyqtSlot()
-	def slot_print(self):
-		pass
-
-	@pyqtSlot()
-	def slot_quit(self):
-		pass
 
 	@pyqtSlot()
 	def slot_undo(self):

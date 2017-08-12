@@ -11,12 +11,18 @@ from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QTextDocument
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QTranslator
 from PyQt5.QtCore import QLocale
-from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QEvent
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.Qt import QDialog
+from PyQt5.Qt import QPrintDialog
+from PyQt5.Qt import QPageSetupDialog
+from PyQt5.Qt import QPrinter
+
 
 from notepad_menubar import MenuBarWidget
 from notepad_texteditor import TextEditor
@@ -33,6 +39,8 @@ class Form(QMainWindow):
 		self.translator = QTranslator()  # I18N 관련
 		self.filename = str()
 		self.change_locale("translate\\" + QLocale.system().name() + ".qm")  # 시스템 로케일 사용
+
+		self.document_prt = QPrinter()
 
 		self.init_window()
 		self.init_setting()
@@ -108,7 +116,25 @@ class Form(QMainWindow):
 		self.set_window_title()
 		return True
 
+	@pyqtSlot()
+	def slot_page_setup(self):
+		page_dialog = QPageSetupDialog(self.document_prt)
+		if page_dialog.exec() != QDialog.Accepted:
+			return
+		self.document_prt = page_dialog.printer()
 
+	@pyqtSlot()
+	def slot_print(self):
+		printer = QPrintDialog(self.document_prt)
+		if printer.exec() != QDialog.Accepted:
+			return
+		doc = QTextDocument()
+		doc.setPlainText(self.editor.toPlainText())
+		doc.print(self.document_prt)
+
+	@pyqtSlot()
+	def slot_quit(self):
+		pass
 
 	def init_window(self):
 		"""
@@ -130,6 +156,8 @@ class Form(QMainWindow):
 		self.menu.sig_new_file.connect(self.slot_new)
 		self.menu.sig_open_file.connect(self.slot_open)
 		self.menu.sig_save_file.connect(self.slot_save)
+		self.menu.sig_page_setup.connect(self.slot_page_setup)
+		self.menu.sig_print.connect(self.slot_print)
 
 
 	def set_window_title(self):
