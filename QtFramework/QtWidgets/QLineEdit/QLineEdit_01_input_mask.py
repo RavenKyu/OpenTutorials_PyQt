@@ -19,7 +19,7 @@ from PyQt5.QtCore import pyqtSlot
 __author__ = "Deokyu Lim <hong18s@gmail.com>"
 
 FORMAT = [
-	{"name": "IP ADDRESS", "format": "000.000.000.000;0"},
+	{"name": "IP ADDRESS", "format": "000.000.000.000;"},
 	{"name": "MAC ADDRESS", "format": "HH:HH:HH:HH:HH:HH;#"},
 	{"name": "ISO DATE", "format": "0000-00-00;0"},
 	{"name": "LICENSE NUMBER", "format": ">AAAAA-AAAAA-AAAAA-AAAAA-AAAAA;#"},
