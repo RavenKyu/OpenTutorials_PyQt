@@ -19,21 +19,21 @@ __author__ = "Deokyu Lim <hong18s@gmail.com>"
 
 
 class Form(QWidget):
-	def __init__(self):
-		QWidget.__init__(self, flags=Qt.Widget)
-		self.setWindowTitle("ItemView QListView")
-		self.setFixedHeight(100)
+    def __init__(self):
+        QWidget.__init__(self, flags=Qt.Widget)
+        self.setWindowTitle("ItemView QListView")
+        self.setFixedHeight(100)
 
-		fruits = ["banana", "apple", "melon", "pear"]
+        fruits = ["banana", "apple", "melon", "pear"]
 
-		view = QListView(self)
-		model = QStandardItemModel()
-		for f in fruits:
-			model.appendRow(QStandardItem(f))
-		view.setModel(model)
+        view = QListView(self)
+        model = QStandardItemModel()
+        for f in fruits:
+            model.appendRow(QStandardItem(f))
+        view.setModel(model)
 
 if __name__ == "__main__":
-	app = QApplication(sys.argv)
-	form = Form()
-	form.show()
-	exit(app.exec_())
+    app = QApplication(sys.argv)
+    form = Form()
+    form.show()
+    exit(app.exec_())

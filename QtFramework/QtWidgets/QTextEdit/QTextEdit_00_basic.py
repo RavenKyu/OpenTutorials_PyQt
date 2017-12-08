@@ -17,21 +17,21 @@ __author__ = "Deokyu Lim <hong18s@gmail.com>"
 
 
 class Form(QWidget):
-	def __init__(self):
-		QWidget.__init__(self, flags=Qt.Widget)
-		self.init_widget()
+    def __init__(self):
+        QWidget.__init__(self, flags=Qt.Widget)
+        self.init_widget()
 
-	def init_widget(self):
-		self.setWindowTitle("Hello World")
-		form_lbx = QBoxLayout(QBoxLayout.TopToBottom, parent=self)
-		self.setLayout(form_lbx)
+    def init_widget(self):
+        self.setWindowTitle("Hello World")
+        form_lbx = QBoxLayout(QBoxLayout.TopToBottom, parent=self)
+        self.setLayout(form_lbx)
 
-		te = QTextEdit()
+        te = QTextEdit()
 
-		form_lbx.addWidget(te)
+        form_lbx.addWidget(te)
 
 if __name__ == "__main__":
-	app = QApplication(sys.argv)
-	form = Form()
-	form.show()
-	exit(app.exec_())
+    app = QApplication(sys.argv)
+    form = Form()
+    form.show()
+    exit(app.exec_())

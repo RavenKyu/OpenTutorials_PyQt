@@ -12,13 +12,13 @@ __author__ = "Deokyu Lim <hong18s@gmail.com>"
 
 
 class TextEditor(QTextEdit):
-	def __init__(self):
-		QTextEdit.__init__(self)
+    def __init__(self):
+        QTextEdit.__init__(self)
 
 if __name__ == "__main__":
-	import sys
-	from PyQt5.QtWidgets import QApplication
-	app = QApplication(sys.argv)
-	form = TextEditor()
-	form.show()
-	exit(app.exec_())
+    import sys
+    from PyQt5.QtWidgets import QApplication
+    app = QApplication(sys.argv)
+    form = TextEditor()
+    form.show()
+    exit(app.exec_())

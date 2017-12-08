@@ -17,26 +17,26 @@ __author__ = "Deokyu Lim <hong18s@gmail.com>"
 
 
 class Form(QWidget):
-	def __init__(self):
-		QWidget.__init__(self, flags=Qt.Widget)
-		self.init_widget()
+    def __init__(self):
+        QWidget.__init__(self, flags=Qt.Widget)
+        self.init_widget()
 
-	def init_widget(self):
-		"""
-		현재 위젯의 모양등을 초기화
-		"""
-		self.setWindowTitle("Tab Widget")
-		form_lbx = QBoxLayout(QBoxLayout.TopToBottom, parent=self)
-		self.setLayout(form_lbx)
+    def init_widget(self):
+        """
+        현재 위젯의 모양등을 초기화
+        """
+        self.setWindowTitle("Tab Widget")
+        form_lbx = QBoxLayout(QBoxLayout.TopToBottom, parent=self)
+        self.setLayout(form_lbx)
 
-		tbw = QTabWidget()
-		form_lbx.addWidget(tbw)
+        tbw = QTabWidget()
+        form_lbx.addWidget(tbw)
 
-		# 탭 추가
-		tbw.addTab(QTextEdit(), "Tab #1")
+        # 탭 추가
+        tbw.addTab(QTextEdit(), "Tab #1")
 
 if __name__ == "__main__":
-	app = QApplication(sys.argv)
-	form = Form()
-	form.show()
-	exit(app.exec_())
+    app = QApplication(sys.argv)
+    form = Form()
+    form.show()
+    exit(app.exec_())

@@ -19,41 +19,41 @@ from PyQt5.QtCore import pyqtSlot
 __author__ = "Deokyu Lim <hong18s@gmail.com>"
 
 class StatusBar(QStatusBar):
-	@pyqtSlot(QTextCursor)
-	def change_cursor_info(self, data:QTextCursor):
-		ss = data.selectionStart()
-		se = data.selectionEnd()
+    @pyqtSlot(QTextCursor)
+    def change_cursor_info(self, data:QTextCursor):
+        ss = data.selectionStart()
+        se = data.selectionEnd()
 
-		selected_info = ""
-		if se - ss:
-			selected_info = "{0} {1}  ".format(se - ss, "char" if (se-ss) == 1 else "chars")
-		self.showMessage("{0}{1}:{2}".format(
-			selected_info,
-			data.blockNumber(),
-			data.columnNumber())
-		)
+        selected_info = ""
+        if se - ss:
+            selected_info = "{0} {1}  ".format(se - ss, "char" if (se-ss) == 1 else "chars")
+        self.showMessage("{0}{1}:{2}".format(
+            selected_info,
+            data.blockNumber(),
+            data.columnNumber())
+        )
 
 
 class Form(QWidget):
-	def __init__(self):
-		QWidget.__init__(self, flags=Qt.Widget)
-		self.init_widget()
+    def __init__(self):
+        QWidget.__init__(self, flags=Qt.Widget)
+        self.init_widget()
 
-	def init_widget(self):
-		self.setWindowTitle("Hello World")
-		form_lbx = QBoxLayout(QBoxLayout.TopToBottom, parent=self)
-		self.setLayout(form_lbx)
+    def init_widget(self):
+        self.setWindowTitle("Hello World")
+        form_lbx = QBoxLayout(QBoxLayout.TopToBottom, parent=self)
+        self.setLayout(form_lbx)
 
-		te = QTextEdit()
-		sb = StatusBar()
+        te = QTextEdit()
+        sb = StatusBar()
 
-		form_lbx.addWidget(te)
-		form_lbx.addWidget(sb)
+        form_lbx.addWidget(te)
+        form_lbx.addWidget(sb)
 
-		te.cursorPositionChanged.connect(lambda: sb.change_cursor_info(te.textCursor()))
+        te.cursorPositionChanged.connect(lambda: sb.change_cursor_info(te.textCursor()))
 
 if __name__ == "__main__":
-	app = QApplication(sys.argv)
-	form = Form()
-	form.show()
-	exit(app.exec_())
+    app = QApplication(sys.argv)
+    form = Form()
+    form.show()
+    exit(app.exec_())

@@ -18,33 +18,33 @@ __author__ = "Deokyu Lim <hong18s@gmail.com>"
 
 
 class Form(QWidget):
-	def __init__(self):
-		QWidget.__init__(self, flags=Qt.Widget)
-		self.cnt = 0
-		self.lb = QLabel(str(self.cnt))
-		self.pb = QPushButton("Count")
+    def __init__(self):
+        QWidget.__init__(self, flags=Qt.Widget)
+        self.cnt = 0
+        self.lb = QLabel(str(self.cnt))
+        self.pb = QPushButton("Count")
 
-		self.init_widget()
+        self.init_widget()
 
-	def init_widget(self):
-		self.setWindowTitle("Custom Signal")
-		form_lbx = QBoxLayout(QBoxLayout.TopToBottom, parent=self)
-		self.setLayout(form_lbx)
+    def init_widget(self):
+        self.setWindowTitle("Custom Signal")
+        form_lbx = QBoxLayout(QBoxLayout.TopToBottom, parent=self)
+        self.setLayout(form_lbx)
 
-		# 시그널 슬롯 연결
-		self.pb.clicked.connect(self.count)
+        # 시그널 슬롯 연결
+        self.pb.clicked.connect(self.count)
 
-		form_lbx.addWidget(self.lb)
-		form_lbx.addWidget(self.pb)
+        form_lbx.addWidget(self.lb)
+        form_lbx.addWidget(self.pb)
 
-	@pyqtSlot()
-	def count(self):
-		# pyqtSlot 데코레이터를 이용하여 메소드를 Qt Slot으로 명시해야한다.
-		self.cnt += 1
-		self.lb.setText(str(self.cnt))
+    @pyqtSlot()
+    def count(self):
+        # pyqtSlot 데코레이터를 이용하여 메소드를 Qt Slot으로 명시해야한다.
+        self.cnt += 1
+        self.lb.setText(str(self.cnt))
 
 if __name__ == "__main__":
-	app = QApplication(sys.argv)
-	form = Form()
-	form.show()
-	exit(app.exec_())
+    app = QApplication(sys.argv)
+    form = Form()
+    form.show()
+    exit(app.exec_())
