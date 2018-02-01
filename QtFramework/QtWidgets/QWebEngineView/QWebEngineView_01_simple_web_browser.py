@@ -42,41 +42,43 @@ class ToolBar(QToolBar):
         self.toggleViewAction().setEnabled(False)
         back_action = QAction(self)
         back_action.setShortcut(QKeySequence(Qt.Key_Back))
-        back_action.setIcon(QIcon("go-previous.png"))
+        back_action.setIcon(QIcon("images/go-previous.png"))
 
         self.addAction(back_action)
         back_action.triggered.connect(self.back_button_clicked)
 
         forward_action = QAction(self)
         forward_action.setShortcut(QKeySequence(Qt.Key_Forward))
-        forward_action.setIcon(QIcon("go-next.png"))
+        forward_action.setIcon(QIcon("images/go-next.png"))
         self.addAction(forward_action)
         forward_action.triggered.connect(self.forward_button_clicked)
 
         self.stop_reload_action = QAction(self)
         self.stop_reload_action.setShortcut(QKeySequence(Qt.Key_F5))
-        self.stop_reload_action.setIcon(QIcon("view-refresh.png"))
+        self.stop_reload_action.setIcon(QIcon("images/view-refresh.png"))
         self.stop_reload_action.setData(QWebEnginePage.Reload)
         self.addAction(self.stop_reload_action)
         self.stop_reload_action.triggered.connect(
-            lambda: self.stop_reload_button_clicked.emit(QWebEnginePage.WebAction(self.stop_reload_action.data())))
+            lambda: self.stop_reload_button_clicked.emit(
+                QWebEnginePage.WebAction(self.stop_reload_action.data())))
 
         self.le = QLineEdit()
         fav_action = QAction(self)
         self.le.addAction(fav_action, QLineEdit.LeadingPosition)
         self.le.setClearButtonEnabled(True)
         self.addWidget(self.le)
-        self.le.editingFinished.connect(lambda: self.address_changed.emit(self.le.text()))
+        self.le.editingFinished.connect(
+            lambda: self.address_changed.emit(self.le.text()))
 
     @pyqtSlot(bool, name="changeStopReload")
     def change_stop_reload(self, state):
         if state:
             self.stop_reload_action.setShortcut(QKeySequence(Qt.Key_F5))
-            self.stop_reload_action.setIcon(QIcon("view-refresh.png"))
+            self.stop_reload_action.setIcon(QIcon("images/view-refresh.png"))
             self.stop_reload_action.setData(QWebEnginePage.Reload)
         else:
             self.stop_reload_action.setShortcut(QKeySequence(Qt.Key_Escape))
-            self.stop_reload_action.setIcon(QIcon("process-stop.png"))
+            self.stop_reload_action.setIcon(QIcon("images/process-stop.png"))
             self.stop_reload_action.setData(QWebEnginePage.Stop)
 
 
@@ -94,8 +96,6 @@ class StatusBar(QStatusBar):
 class Form(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
-        self.form_layout = QBoxLayout(QBoxLayout.LeftToRight, self)
-        self.setLayout(self.form_layout)
         self.init_widget()
 
     def init_widget(self):
@@ -107,11 +107,13 @@ class Form(QMainWindow):
         self.web.setUrl(QUrl("https://www.qt.io"))
         self.setCentralWidget(self.web)
 
-        self.web.loadProgress.connect(lambda v: self.toolbar.changeStopReload(bool(0 <= v >= 100)))
+        self.web.loadProgress.connect(
+            lambda v: self.toolbar.changeStopReload(bool(0 <= v >= 100)))
         self.web.loadProgress.connect(self.statusbar.setProgressValue)
         self.toolbar.backClicked.connect(self.web.back)
         self.toolbar.forwardClicked.connect(self.web.forward)
-        self.toolbar.stopReloadClicked.connect(lambda v: self.web.triggerPageAction(v))
+        self.toolbar.stopReloadClicked.connect(
+            lambda v: self.web.triggerPageAction(v))
         self.toolbar.addressChanged.connect(lambda v: self.web.setUrl(QUrl(v)))
         self.setStatusBar(self.statusbar)
 
