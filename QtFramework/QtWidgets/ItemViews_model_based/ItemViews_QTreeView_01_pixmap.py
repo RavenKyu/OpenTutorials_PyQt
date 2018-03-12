@@ -54,7 +54,7 @@ class Model(QStandardItemModel):
 class Form(QWidget):
     def __init__(self):
         QWidget.__init__(self, flags=Qt.Widget)
-        self.setWindowTitle("ItemView QListView")
+        self.setWindowTitle("ItemView QTreeView")
         self.setFixedWidth(210)
         self.setFixedHeight(150)
 
