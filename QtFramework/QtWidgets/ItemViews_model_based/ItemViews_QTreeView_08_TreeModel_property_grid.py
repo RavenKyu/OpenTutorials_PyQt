@@ -136,18 +136,6 @@ class TreeModel(QAbstractItemModel):
 
         return parentItem.childCount()
 
-    def _add_item(self, item):
-        row = list()
-        column = list()
-        for sub_item in item['objects']:
-            child = QStandardItem(sub_item['name'])
-            col = QStandardItem(sub_item['value'])
-            col.setCheckState(Qt.Checked if sub_item['value'] else Qt.Unchecked)
-            col.setData(sub_item['editor'], Qt.UserRole+1)
-            row.append(child)
-            column.append(col)
-        return row, column
-
     def setupModelData(self, items, parent):
         parents = [parent]
         parents[-1].appendChild(TreeItem(["option 1", "option 1 description"], parents[-1]))
