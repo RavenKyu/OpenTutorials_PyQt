@@ -1,0 +1,21 @@
+{
+  "metadata": {
+    "version": [1, 0, 1, "b"],
+    "data_type": "scenario",
+    "title": "LinkedIn Test Scenario",
+    "related_date": {
+      "created": 1520413079,
+      "last_modified": 1520413079},
+    "related_people": {
+      "author": {
+        "name": "Raven",
+        "email": "deokyu@vivans.net"
+      },
+      "last_modified_by": {
+        "name": "Jerry",
+        "emil": "mcchae@vivans.net"
+      }
+    },
+    "comment": "LinkedIn RPA Scenario"
+  },
+}
