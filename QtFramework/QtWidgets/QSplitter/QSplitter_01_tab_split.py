@@ -47,8 +47,6 @@ class Form(QWidget):
 
         self.tabs = list()
 
-        # Splitter의 Layout
-        self.container_vbox = QBoxLayout(QBoxLayout.LeftToRight)
         # 전체 레이아웃
         self.vbox = QBoxLayout(QBoxLayout.TopToBottom)
         self.init_widget()
@@ -67,8 +65,6 @@ class Form(QWidget):
 
         # 생성한 탭을 Splitter에 등록
         self.splits.addWidget(self.tabs[0])
-        # 탭의 레이아웃 지정
-        self.container_vbox.addWidget(self.tabs[0])
         # 전체 레이아웃에 위젯 등록
         self.vbox.addWidget(self.splits)
         self.vbox.addWidget(self.pb)
