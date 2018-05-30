@@ -58,8 +58,8 @@ class Form(UI):
 
         # 데이터 초기화
         data = ["Apple", "Banana", "Tomato", "Cherry"]
+        parent = QTreeWidget.invisibleRootItem(self.tw_1)
         for d in data:
-            parent = QTreeWidget.invisibleRootItem(self.tw_1)
             item = self.make_tree_item(d)
             parent.addChild(item)
 
