@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to request for downloading a file.</p>
+
+<button onclick="downloadURI('data:text/html,Hello world!', './QWebEngineView_05_download_request.html')">Try it</button>
+
+<script>
+    function downloadURI(uri, name) {
+        let link = document.createElement("a");
+        link.download = name;
+        link.href = uri;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        delete link;
+    }
+</script>
+
+</body>
+</html>
