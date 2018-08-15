@@ -77,7 +77,8 @@ class Form(QWidget):
         self.web.load(url)
 
         # 핸들러 시그널 버튼이 눌러지면 console로 Hi를 보낸다.
-        self.pb_1.clicked.connect(lambda v: self.handler.getText.emit("Hi"))
+        self.pb_1.clicked.connect(
+            lambda v: self.handler.getText.emit(self.te_1.toPlainText()))
 
         self.layout_2.addWidget(self.web)
         self.layout_3.addWidget(self.pb_1)

@@ -27,6 +27,7 @@ class Form(QWidget):
 
     def init_widget(self):
         self.setWindowTitle("QWebEngineView")
+        # QWebEngineView 를 이용하여 웹 페이지를 표출
         web = QWebEngineView()
         web.setUrl(QUrl("https://www.google.com"))
         self.form_layout.addWidget(web)
